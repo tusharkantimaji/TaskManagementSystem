@@ -35,8 +35,11 @@ export class TaskService {
   }
 
   async updateStatusById(id: string, status: TaskStatus): Promise<Task> {
-    const a = await this.taskModel.update({ status: status }, { where: { id } });
-    return a; //this.findOne(id);
+    await this.taskModel.update(
+      { status: status },
+      { where: { id }, returning: true },
+    );
+    return this.findOne(id);
     // return a
     // return this.taskModel.findOne({
     //   where: {
